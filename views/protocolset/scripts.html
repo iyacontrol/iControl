@@ -1,0 +1,214 @@
+<!-- datatable js-->
+<script src="static/DataTable/js/jquery.dataTables.js"></script>
+<script type="text/javascript">
+    var otable;
+$(function(){
+	otable=initTable();
+	$("#btnAdd").click(Add);
+	$("#btnUpdate").click(Update);
+	$("#btnDelete").click(BatchDelete);
+	$("#btnFresh").click(Fresh);
+	$("#btnAddSave").click(AddAjax)
+	$("#btnUpdateSave").click(UpdateAjax)
+	$("#btnDeleteSave").click(DeleteAjax)	
+});
+
+function initTable()
+{
+               var table = $('#example').DataTable({
+		ajax: {
+			url :"/protocolset/getdata",
+			dataSrc:"" //通过 Ajax，从一个文件获取 JSON 数据，通过 dataSrc 设置为空字符串，不从数组对象里获取，而是从数组里获取 （比如： { [ ...data... ] } ）
+		},
+		bSort:false,	
+		processing:true,
+		columns : [
+			 {
+				"data":"Id",
+           			                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+               				  	$(nTd).html("<input type='checkbox' name='checkList' value='" + sData + "'>");
+ 
+          				  }
+       			 },
+			{"data":"Com"},
+			{"data":"BaudRate"},
+			{"data":"DataBit"},
+            {"data":"ParityBit"},
+            {"data":"StopBit"}
+		],
+		fnCreatedRow:function (nRow, aData, iDataIndex) {
+				$(nRow).click(function () {
+           					 if ($(this).hasClass('row_selected')) {
+               					 	$(this).removeClass('row_selected');
+            					} else {
+                					otable.$('tr.row_selected').removeClass('row_selected');
+                					$(this).addClass('row_selected');
+           					 }
+       				 });
+			},
+		oLanguage: {
+			    "sUrl": "static/DataTable/zh_CN.json"
+			 } ,
+		initComplete:function(){
+			//checkbox全选
+			$("#checkAll").bind("click" ,function () {	
+  		         		if ($("#checkAll").is(':checked')) {
+        					$("input[name='checkList']").prop("checked", $("#checkAll").is(':checked'));
+   		 		} else {
+        					$("input[name='checkList']").prop("checked", false);
+  		 		 }
+			});
+		}
+	});
+	return table;	
+}
+
+function Add()
+{
+    resetFrom();
+	$('#add').modal('show');
+}
+
+function Update()
+{
+	
+	if (otable.$('tr.row_selected').get(0)) {
+		resetFrom();
+    		var selected =otable.row('.row_selected').data();
+		$("#updateId").val(selected.Id);	
+    		$("#updateAddress").val(selected.Address);
+    		$("#updateCenterName").val(selected.CenterName);
+   		$("#updateCenterPosition").val(selected.CenterPosition);
+   
+		$('#update').modal('show')
+
+	} else {
+   		 alert('请点击选择一条记录后操作。');
+	}
+}
+
+
+function Fresh()
+{
+	otable.ajax.reload();
+	$("#checkAll").prop("checked", false);
+}
+
+function resetFrom()
+{
+	$('form').each(function (index) {
+    		$('form')[index].reset();
+	});
+}
+
+function AddAjax()
+{
+	var jsonData = {
+    			'Address': $("#addAddress").val(),
+    			'CenterName': $("#addCenterName").val(),
+    			'CenterPosition': $("#addCenterPosition").val()
+			};
+	$.ajax({
+    		url: "/protocolset/adddata",
+    		data: JSON.stringify(jsonData),
+    		type: "post",
+		contentType: "application/json",
+		dataType:'json',
+   		success: function (backdata) {
+	                              var json = JSON.parse(backdata);			
+        			if (json['data'] == 1) {
+            				$("#add").modal("hide");
+           				 Fresh();
+       			 } else if (json['data'] == 0) {
+           				 alert("插入失败");
+				$("#add").modal("hide");
+       			 } 
+   			 }, 
+			error: function (error) {
+        				console.log(error);
+   			 }
+              });
+			
+}
+function UpdateAjax()
+{
+	var Id = parseInt($("#updateId").val());
+	var Address = $("#updateAddress").val();
+	var CenterName = $("#updateCenterName").val();
+	var CenterPosition = $("#updateCenterPosition").val();
+	var jsonData = {
+    		"Id": Id,
+   		 "Address": Address,
+    		"CenterName": CenterName,
+   		 "CenterPosition": CenterPosition
+		};
+	$.ajax({
+   		 type: 'POST',
+    		 url: '/protocolset/updatedata',
+   		 data: JSON.stringify(jsonData),
+		 contentType: "application/json",
+		 dataType:'json',
+   		 success: function (backdata) {
+			var json = JSON.parse(backdata);
+       			 if (json['data'] == 1) {
+           				 $("#update").modal("hide");
+            			 	 resetFrom();
+           				 Fresh();
+      		  	} else {
+           				 alert("更新失败");
+				$("#update").modal("hide");
+       			 }
+		}
+		});
+}
+function DeleteAjax()
+{
+    	var Id=$('#delspan').text();
+	$.ajax({
+              		url: "/protocolset/deldata",
+    		data:JSON.stringify( {"Id": Id}),
+    		type: "post",
+		contentType: "application/json",
+		dataType:'json',
+    		success: function (backdata) {
+				var json = JSON.parse(backdata);
+        				if (json['data'] == 1) {				
+            					$('#delete').modal('hide');
+					Fresh();
+       				 } else {
+           					 alert("删除失败");
+					$('#delete').modal('hide');
+      				  }
+   				 }, 
+				error: function (error) {
+       					 console.log(error);
+  				  }
+		});
+}
+
+/**
+* 批量删除
+*/
+function BatchDelete()
+ {
+	var str = '';
+	$("input[name='checkList']:checked").each(function (i, o) {
+    		str += $(this).val();
+    		str += ",";
+	});
+	if (str.length > 0) {
+    		var IDS = str.substr(0, str.length - 1);
+		$('#delspan').text(IDS)
+		$('#delete').modal('show');
+	} else if (otable.$('tr.row_selected').get(0)) {
+		var selected =otable.row('.row_selected').data();;
+		$('#delspan').text(selected.Id);
+		$('#delete').modal('show');
+   		 
+	} else {
+		alert("至少选择一条记录操作");
+	}
+	
+}
+
+</script>

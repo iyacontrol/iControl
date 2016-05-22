@@ -1,0 +1,37 @@
+<!-- datatable js-->
+<script src="static/DataTable/js/jquery.dataTables.js"></script>
+<script type="text/javascript">
+    var otable;
+$(function(){
+	otable=initTable();
+	$("#freshdata").click(Fresh)   
+});
+	
+
+  function initTable()
+{
+               var table = $('#example').DataTable({
+		ajax: {
+			url :"/realtime/getdata",
+			dataSrc:"" //通过 Ajax，从一个文件获取 JSON 数据，通过 dataSrc 设置为空字符串，不从数组对象里获取，而是从数组里获取 （比如： { [ ...data... ] } ）
+		},	
+		processing:true,
+		columns : [
+			{"data":"Id"},
+			{"data":"Type"},
+			{"data":"Num"},
+			{"data":"Value"}
+		],
+		oLanguage: {
+			    "sUrl": "static/DataTable/zh_CN.json"
+			 } 
+	});
+	return table;	
+}
+
+function Fresh()
+{
+	otable.ajax.reload();
+}
+
+</script>

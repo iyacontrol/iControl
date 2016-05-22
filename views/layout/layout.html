@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+
+    <link rel="shortcut icon" href="static/img/icon/favicon.ico" type="image/x-icon" />
+    <title>能耗采集器管理平台</title>
+
+    <link href="static/css/style.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="static/Font-Awesome/css/font-awesome.min.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    {{.HtmlHead}}
+</head>
+
+<body>
+    <!-- 导航部分-->
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">能耗采集器管理平台</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="/realtime">实时查询</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">参数设置 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">表设置</a></li>
+                            <li><a href="/protocolset">通讯协议设置</a></li>
+                            <li><a href="#">点位设置</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/ipset">采集器IP设置</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">数据中心设置</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" data-toggle="modal" data-target="#about">关于</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> 用户管理 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/profile">修改密码</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/logout">退出登陆</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- 内容设置 -->
+    {{.LayoutContent}}
+
+
+    <!-- footer设置 -->
+    <div class="footer">
+        <div class="footer-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7">
+                        &copy; 2015-2016 <a href="http://www.esdtek.com">易艾斯德科技有限公司</a>.
+                    </div>
+                    <div class="col-md-5" id="server-time" style="text-align:right">
+
+                    </div>
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /footer-inner -->
+    </div>
+    <!-- /footer -->
+
+
+    <!--模态框 -->
+    <div class="modal fade" id="about">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">能效管理应用案例</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#build" aria-controls="build" role="tab" data-toggle="tab">建筑</a></li>
+                            <li role="presentation"><a href="#factory" aria-controls="factory" role="tab" data-toggle="tab">工业</a></li>
+                            <li role="presentation"><a href="#hospital" aria-controls="hospital" role="tab" data-toggle="tab">医院</a></li>
+                            <li role="presentation"><a href="#school" aria-controls="school" role="tab" data-toggle="tab">高校</a></li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="build">
+                                <div class="row feature">
+                                    <div class="col-md-7">
+                                        <h3 class="feature-heading">公共建筑能效管理</h3>
+                                        <p class="lead">目前，全国现有建筑面积已达450亿平方米。在建筑建造和使用中，能源消耗高、利用效率低</p>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <img class="img-rounded feature-image" src="static/img/jpg/build.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="factory">
+                                <div class="row feature">
+                                    <div class="col-md-7">
+                                        <h3 class="feature-heading">工业能源能效管理</h3>
+                                        <p class="lead">随着我国经济的持续增长，能源需求不断增大，能源短缺已成为影响我国经济持续发展的关键因</p>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <img class="img-rounded  feature-image" src="static/img/jpg/factory.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="hospital">
+                                <div class="row feature">
+                                    <div class="col-md-7">
+                                        <h3 class="feature-heading">医院能效能效管理</h3>
+                                        <p class="lead">您是否已经意识到？医院能源运营管理正在经历前所未有的变革！作为能源种类多、功能复</p>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <img class="img-rounded  feature-image" src="static/img/jpg/hospital.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="school">
+                                <div class="row feature">
+                                    <div class="col-md-7">
+                                        <h3 class="feature-heading">高校节能能效管理</h3>
+                                        <p class="lead">高校作为建筑领域一个特殊行业，集教学、科研和生活于一体, 人口密度高，建筑总量大，</p>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <img class="img-rounded  feature-image" src="static/img/jpg/school.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="static/js/jquery-1.11.3/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="static/bootstrap/js/bootstrap.min.js"></script>
+
+        {{.Scripts}}
+</body>
+
+</html>

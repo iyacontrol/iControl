@@ -1,0 +1,235 @@
+<div class="container" id="real-container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-success">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <h4>modbus协议设置</h4>
+                        </div>
+                        <div class="col-md-5">
+                            <div class='btn-group'>
+                                <button class='btn btn-success ' id="btnAdd"><i class="icon-plus"></i> 新增</button>
+                                <button class='btn  btn-danger' id="btnUpdate"><i class="icon-edit"></i> 修改</button>
+                                <button class='btn btn-warning' id="btnDelete"><i class="icon-trash"></i> 删除</button>
+                                <button class='btn btn-info ' id="btnFresh"><i class="icon-refresh"></i> 刷新</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Table -->
+                <table id="example" class="table table-striped table-bordered table-hover<" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th style="width:15px">
+                                <input type="checkbox" id='checkAll'>
+                            </th>
+                            <th>串口</th>
+                            <th>波特率</th>
+                            <th>数据位</th>
+                            <th>奇偶校验位</th>
+                            <th>停止位</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--模态框 -->
+<div class="modal fade" id="add">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">新增数据</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="resForm" role="form">
+                    <input type="hidden" id="addId" />
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="inputCom">Com口：</label>
+                        <div class="col-md-8">
+                            <select id="addCom" size="1">
+                                <option value="1" selected>Com1</option>
+                                <option value="2">Com2</option>
+                                <option value="3">Com3</option>
+                                <option value="4">Com4</option>
+                                <option value="5">Com5</option>
+                                <option value="6">Com6</option>
+                                <option value="7">Com7</option>
+                                <option value="8">Com8</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="inputBaudRate">波特率：</label>
+                        <div class="col-md-8">
+                            <select id="addBaudRate" size="1">
+                                <option value="1" selected>1200</option>
+                                <option value="2">2400</option>
+                                <option value="3">4800</option>
+                                <option value="4">9600</option>
+                                <option value="5">19200</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="inputDataBit">数据位：</label>
+                        <div class="col-md-8">
+                            <select id="addDataBit" size="1">
+                                <option value="1">2</option>
+                                <option value="2">4</option>
+                                <option value="3">6</option>
+                                <option value="4" selected>8</option>
+                                <option value="5">16</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="inputParityBit">奇偶校验位：</label>
+                        <div class="col-md-8">
+                            <select id="addParityBit" size="1">
+                                <option value="1" selected>无</option>
+                                <option value="2">1位偶校验</option>
+                                <option value="3">1位奇校验</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="inputStopBit">停止位：</label>
+                        <div class="col-md-8">
+                            <select id="addStopBit" size="1">
+                                <option value="1" selected>无</option>
+                                <option value="2">1位</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnAddSave">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!--模态框 -->
+<div class="modal fade" id="update">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改数据</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="resForm" role="form">
+                    <input type="hidden" id="updateId" />
+
+                    <div class="form-groupp">
+                        <label class="control-label col-md-4" for="inputCom">Com口：</label>
+                        <div class="col-md-8">
+                            <select id="updateCom" size="1" >
+                                <option value="1" selected>Com1</option>
+                                <option value="2">Com2</option>
+                                <option value="3">Com3</option>
+                                <option value="4">Com4</option>
+                                <option value="5">Com5</option>
+                                <option value="6">Com6</option>
+                                <option value="7">Com7</option>
+                                <option value="8">Com8</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-groupp">
+                        <label class="control-label col-md-4" for="inputBaudRate">波特率：</label>
+                        <div class="col-md-8">
+                            <select id="updateBaudRate" size="1">
+                                <option value="1" selected>1200</option>
+                                <option value="2">2400</option>
+                                <option value="3">4800</option>
+                                <option value="4">9600</option>
+                                <option value="5">19200</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="inputDataBit">数据位：</label>
+                        <div class="col-md-8">
+                            <select id="updateDataBit" size="1">
+                                <option value="1">2</option>
+                                <option value="2">4</option>
+                                <option value="3">6</option>
+                                <option value="4" selected>8</option>
+                                <option value="5">16</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="inputParityBit">奇偶校验位：</label>
+                        <div class="col-md-8">
+                            <select id="updateParityBit" size="1">
+                                <option value="1" selected>无</option>
+                                <option value="2">1位偶校验</option>
+                                <option value="3">1位奇校验</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="inputStopBit">停止位：</label>
+                        <div class="col-md-8">
+                            <select id="updateStopBit" size="1">
+                                <option value="1" selected>无</option>
+                                <option value="2">1位</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnUpdateSave">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!--模态框 -->
+<div class="modal fade" id="delete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">删除数据</h4>
+            </div>
+            <div class="modal-body">
+                <strong>你要删除的数据集Id: <span id="delspan"></span></strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnDeleteSave">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
